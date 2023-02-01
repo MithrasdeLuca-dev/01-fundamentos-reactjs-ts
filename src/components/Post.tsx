@@ -7,24 +7,35 @@ import { useState, FormEvent, ChangeEvent, InvalidEvent } from 'react';
 
 import styles from './Post.module.css';
 
-interface Author{
-  name: string;
-  role: string;
-  avatarUrl: string;
+// export interface Content{
+//   type: 'paragraph'|'link';
+//   content: string
+// }
+// export interface Author {
+//   name: string;
+//   role: string;
+//   avatarUrl: string;
+// }
+// export interface PostProps {
+//   author: Author;
+//   publishedAt: Date;
+//   content: Content[];
+// }
+
+export interface PostProps {
+  author: {
+    avatarUrl: string;
+    name: string;
+    role: string
+  },
+  content: {
+    type: 'paragraph' | 'link';
+    content: string
+  }[],
+  publishedAt: Date
 }
 
-interface Content {
-  type: 'paragraph' | 'link';
-  content: string;
-}
-
-interface PostProps{
-  author:Author;
-  publishedAt: Date;
-  content: Content[];
-}
-
-export function Post({ author, publishedAt, content }: PostProps) {
+export function Post({ author, publishedAt, content,  }: PostProps) {
   const [comments, setComments] = useState([
     'Post muito bacana, hein!'
   ])
@@ -40,7 +51,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
     addSuffix: true
   })
 
-  function handCreateNewComment(event: FormEvent)  {
+  function handCreateNewComment(event: FormEvent) {
     event.preventDefault()
 
     setComments([...comments, newCommentText]);
@@ -65,7 +76,7 @@ export function Post({ author, publishedAt, content }: PostProps) {
   }
 
   const isNewCommentEmpty = newCommentText.length === 0
-  
+
   return (
     <article className={styles.post}>
       <header>
